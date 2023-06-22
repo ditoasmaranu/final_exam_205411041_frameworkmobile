@@ -32,11 +32,11 @@ dependencies:
   firebase_core_platform_interface: 4.8.0 #
   firebase_messaging: ^14.6.3 #
   http: ^0.13.4
-  irebase_core: ^2.14.0 #
+  firebase_core: ^2.14.0 #
   cloud_firestore: ^4.8.1 #
-  irebase_auth: ^4.6.3 #
-  google_fonts: ^4.0.0 #
-  provider: ^5.0.0 #
+  firebase_auth: ^4.6.3 #
+  #oogle_fonts: ^4.0.0 #
+  #provider: ^5.0.0 #
   flutter:
     sdk: flutter
 

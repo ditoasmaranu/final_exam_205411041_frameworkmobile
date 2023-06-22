@@ -3,11 +3,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
-void main() {
+// finalexamframeworkmobile-3574d
+//insiasi firebase
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
+
 
 class MyApp extends StatefulWidget {
   @override
@@ -24,9 +31,8 @@ class _MyAppState extends State<MyApp> {
     _fetchMetalPrices();
   }
 
-  //melakukan fetch dari api yang saya pakai
+  // Melakukan fetch dari API yang digunakan
   Future<void> _fetchMetalPrices() async {
-    //url api , mohon konfirmasinya apabila hanya loading , soalnya api gratisan sehingga requestnya di limit :)
     final url =
         'https://api.metalpriceapi.com/v1/latest?api_key=5835c18795b3d046a377da4667c4d724&base=USD&currencies=XAU,XAG,XPD,XRH,XCU';
     final response = await http.get(Uri.parse(url));
@@ -40,8 +46,18 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  //berfungsi mengganti nama yang  umum diketahui orang , karena api yg saya pakai menggunakan nama yg tidak lazim
+  //berfungsi untuk menyimpan data dari api ke firestore databases
+  void _saveMetalToFirestore(String metalName, double metalValue) {
+    FirebaseFirestore.instance
+        .collection('metals')
+        .doc(metalName)
+        .set({'name': metalName, 'value': metalValue})
+        .then((value) => print('Metal $metalName saved to Firestore'))
+        .catchError((error) => print('Failed to save metal: $error'));
+  }
 
+
+  // Mengganti nama yang umum diketahui orang
   String _replaceMetalName(String name) {
     switch (name) {
       case 'XAU':
@@ -55,7 +71,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  //berfungsi untuk mendefinisikan url dari gambar berdasarkan parameter nama
+  // Mendefinisikan URL gambar berdasarkan nama
   String _urlMetalName(String name) {
     switch (name) {
       case 'XAU':
@@ -69,7 +85,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  //berfungsi untuk memberikan descripsi berdasarkan parameter nama
+  // Memberikan deskripsi berdasarkan nama
   String _descMetalName(String name) {
     switch (name) {
       case 'XAU':
@@ -83,17 +99,14 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          //memberikan nama pada appBar ( kebetulan bingung kasih notenya dimana )
           title: Text('Metal Prices In IDR ( click on list )'),
           backgroundColor: Colors.blueGrey,
         ),
-        //Tampilan Loading menggunakan tema DoubleBounce
         body: isLoading
             ? Center(
           child: SpinKitDoubleBounce(
@@ -106,24 +119,25 @@ class _MyAppState extends State<MyApp> {
           itemBuilder: (context, index) {
             final key = metalPrices.keys.toList()[index];
             final value = metalPrices.values.toList()[index];
-            //deefinisikan bahwa value friendlyName sama dengan _replaceMetalName dengan parameter key
             final friendlyName = _replaceMetalName(key);
-            //deefinisikan bahwa value descOfMetal sama dengan _descMetalName dengan parameter key
             final descOfMetal = _descMetalName(key);
-            //deefinisikan bahwa value urlOfImageMetal sama dengan _urlMetalName dengan parameter key
             final urlOfImageMetal = _urlMetalName(key);
 
             return ListTile(
               title: Text(friendlyName),
-              trailing: Text(((value * 12000000)*14000).toStringAsFixed(2)),
+              trailing: Text(value.toStringAsFixed(2)),
               tileColor: Colors.blueAccent.withOpacity(0.1),
-              //berfungsi untuk mengakses class MetalDetailScreen ketika list di tap/klik
               onTap: () {
+                _saveMetalToFirestore(friendlyName, value);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        MetalDetailScreen(metalName: friendlyName, metalValue: value, metalDescription: descOfMetal, imageUrl: urlOfImageMetal ),
+                    builder: (context) => MetalDetailScreen(
+                      metalName: friendlyName,
+                      metalValue: value,
+                      metalDescription: descOfMetal,
+                      imageUrl: urlOfImageMetal,
+                    ),
                   ),
                 );
               },
@@ -135,6 +149,8 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+
+//untuk tampilan yang berada di description tab
 class MetalDetailScreen extends StatelessWidget {
   final String metalName;
   final double metalValue;
@@ -151,7 +167,6 @@ class MetalDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //nama app bar di ambil dari variabel metalName
       appBar: AppBar(
         title: Text(metalName),
         backgroundColor: Colors.blueGrey,
@@ -191,7 +206,7 @@ class MetalDetailScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                '\Rp${((metalValue*1200000)*140000).toStringAsFixed(2)}',
+                '\Rp${metalValue.toStringAsFixed(2)}',
                 style: TextStyle(fontSize: 18.0),
               ),
               SizedBox(height: 16.0),

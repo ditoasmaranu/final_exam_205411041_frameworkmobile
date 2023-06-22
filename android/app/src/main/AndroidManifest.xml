@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--    permision internet, kemaren sempet ada issue kalo di eksekusi di emulator normal ( bisa konek ke internet ) tapi kalo di perangkat fisik ga bisa , tetap harus menggunakan manifest internet -->
+    <!--    seperti praktikum matakuliah  pemrograman mobile semester 6-->
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="final_exam_205411041_frameworkmobile"
+        android:label="uts_framewokmobile_205411041"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -17,9 +19,9 @@
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme"
+                />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "996933461411",
+    "project_id": "finalexamframeworkmobile",
+    "storage_bucket": "finalexamframeworkmobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996933461411:android:5ceb13016336c3a25e6616",
+        "android_client_info": {
+          "package_name": "com.example.final_exam_205411041_frameworkmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996933461411-h4v7mt5jcjbco69sco10n595anmutor9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd_F9-p-PIPLPCYl-JkNqd3al-7R70g-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996933461411-h4v7mt5jcjbco69sco10n595anmutor9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
