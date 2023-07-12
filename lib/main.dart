@@ -6,12 +6,16 @@ import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-//
-// finalexamframeworkmobile-3574d
+
+
+//mohon maaf pak untuk saat ini abru bisa fetch url dari api, namun belum bisa send data ke
+//firestore database berhubung waktu sudah mendesak maka saya kumpulkan sejadinya
+//untuk fitur firestore saya comment agar tidak di compile
+
 //insiasi firebase
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -46,15 +50,21 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+
+  //mohon maaf pak untuk saat ini abru bisa fetch url dari api, namun belum bisa send data ke
+  //firestore database berhubung waktu sudah mendesak maka saya kumpulkan sejadinya
+  //untuk fitur firestore saya comment agar tidak di compile
+
+
   //berfungsi untuk menyimpan data dari api ke firestore databases
-  void _saveMetalToFirestore(String metalName, double metalValue) {
-    FirebaseFirestore.instance
-        .collection('metals')
-        .doc(metalName)
-        .set({'name': metalName, 'value': metalValue})
-        .then((value) => print('Metal $metalName saved to Firestore'))
-        .catchError((error) => print('Failed to save metal: $error'));
-  }
+  // void _saveMetalToFirestore(String metalName, double metalValue) {
+  //   FirebaseFirestore.instance
+  //       .collection('metals')
+  //       .doc(metalName)
+  //       .set({'name': metalName, 'value': metalValue})
+  //       .then((value) => print('Metal $metalName saved to Firestore'))
+  //       .catchError((error) => print('Failed to save metal: $error'));
+  // }
 
 
   // Mengganti nama yang umum diketahui orang
@@ -128,7 +138,7 @@ class _MyAppState extends State<MyApp> {
               trailing: Text(value.toStringAsFixed(2)),
               tileColor: Colors.blueAccent.withOpacity(0.1),
               onTap: () {
-                _saveMetalToFirestore(friendlyName, value);
+                // _saveMetalToFirestore(friendlyName, value);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
