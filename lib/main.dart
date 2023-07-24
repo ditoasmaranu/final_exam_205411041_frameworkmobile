@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
   // Melakukan fetch dari API yang digunakan
   Future<void> _fetchMetalPrices() async {
     final url =
-        'https://api.metalpriceapi.com/v1/latest?api_key=5835c18795b3d046a377da4667c4d724&base=USD&currencies=XAU,XAG,XPD,XRH,XCU';
+        'https://api.metalpriceapi.com/v1/latest?api_key=5835c18795b3d046a377da4667c4d724&base=USD&currencies=XAU,XAG,XPD,XRH';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       setState(() {
